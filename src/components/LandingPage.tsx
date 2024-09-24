@@ -3,7 +3,7 @@ import Register from "./Register";
 import Login from "./Login";
 
 function LandingPage() {
-  const [showRegistration, setShowRegistration] = useState(true);
+  const [showLogin, setShowLogin] = useState(true);
   return (
     <>
       <section className="hero is-link is-fullheight">
@@ -19,10 +19,10 @@ function LandingPage() {
               </p>
             </div>
             <div className="column">
-              {showRegistration ? (
-                <Register setShowRegistration={setShowRegistration} />
+              {showLogin ? (
+                <Login setShowLogin={setShowLogin} />
               ) : (
-                <Login />
+                <Register setShowLogin={setShowLogin} />
               )}
             </div>
           </div>
