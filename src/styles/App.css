@@ -13,3 +13,14 @@ body {
 .ps-landing-page {
   width: 100%;
 }
+
+.ps-form {
+  border: 1px solid white;
+  border-radius: 8px;
+  background: white;
+  color: black;
+}
+
+.hover-pointer:hover {
+  cursor: pointer;
+}

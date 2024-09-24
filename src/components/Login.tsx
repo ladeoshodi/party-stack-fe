@@ -52,8 +52,8 @@ function Login({ setShowLogin }: IShowLogin) {
   }
 
   return (
-    <section className="section">
-      <p>Login</p>
+    <section className="section ps-form">
+      <p className="title has-text-black">Login</p>
       <form onSubmit={handleLogin}>
         <div className="field">
           <label htmlFor="email" className="label">
@@ -96,6 +96,7 @@ function Login({ setShowLogin }: IShowLogin) {
         <button className="button">Login</button>
       </form>
       <p
+        className="hover-pointer"
         onClick={() => {
           setShowLogin(false);
         }}

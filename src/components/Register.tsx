@@ -52,8 +52,8 @@ function Register({ setShowLogin }: IShowLogin) {
   }
 
   return (
-    <section className="section">
-      <p>Register</p>
+    <section className="section ps-form">
+      <p className="title has-text-black">Register</p>
       <form onSubmit={handleRegistration}>
         <div className="field">
           <label htmlFor="username" className="label">
@@ -134,6 +134,7 @@ function Register({ setShowLogin }: IShowLogin) {
         <button className="button">Register</button>
       </form>
       <p
+        className="hover-pointer"
         onClick={() => {
           setShowLogin(true);
         }}
