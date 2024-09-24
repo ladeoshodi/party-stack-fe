@@ -10,6 +10,10 @@ body {
   font-style: normal;
 }
 
+.hero-body {
+  justify-content: center;
+}
+
 .ps-landing-page {
   width: 100%;
 }
