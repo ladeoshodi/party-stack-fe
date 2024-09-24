@@ -29,7 +29,7 @@ function Register({ setShowLogin }: IShowLogin) {
         dismissible: true,
         pauseOnHover: true,
       });
-      // show the login page
+      // redirect to login on successful registration
       setShowLogin(true);
     } catch (e: any) {
       toast({

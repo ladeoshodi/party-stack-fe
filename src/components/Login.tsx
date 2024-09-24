@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "bulma-toast";
+import { useNavigate } from "react-router-dom";
 
 interface IShowLogin {
   setShowLogin: (showLogin: boolean) => void;
@@ -17,13 +18,19 @@ function Login({ setShowLogin }: IShowLogin) {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
     try {
       const URL = "/api/user/login";
       const response = await axios.post<IApiResponse>(URL, formData);
-      console.log(response.data.token);
+
+      // save the token on successful login
       localStorage.setItem("token", response.data.token);
+
+      // redirect to home
+      navigate("/home");
 
       toast({
         message: response.data.message,
