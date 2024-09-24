@@ -29,7 +29,7 @@ function NavBar() {
               <Link to="/profile" className="navbar-item">
                 Profile
               </Link>
-              <Link to="#" className="navbar-item">
+              <Link to="/submit-game" className="navbar-item">
                 Submit a new game
               </Link>
               <hr className="navbar-divider" />
