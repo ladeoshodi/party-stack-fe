@@ -2,15 +2,9 @@ import axios, { AxiosError } from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "bulma-toast";
 import { useNavigate } from "react-router-dom";
-
-interface IShowLogin {
-  setShowLogin: (showLogin: boolean) => void;
-}
-
-interface IApiResponse {
-  message: string;
-  token: string;
-}
+import { ILoginApiResponse } from "../interfaces/api";
+import { IShowLogin } from "../interfaces/reactStates";
+import { getAxiosErrorMessage } from "../utils/utils";
 
 function Login({ setShowLogin }: IShowLogin) {
   const [formData, setFormData] = useState({
@@ -24,7 +18,7 @@ function Login({ setShowLogin }: IShowLogin) {
     e.preventDefault();
     try {
       const URL = "/api/user/login";
-      const response = await axios.post<IApiResponse>(URL, formData);
+      const response = await axios.post<ILoginApiResponse>(URL, formData);
 
       // save the token on successful login
       localStorage.setItem("token", response.data.token);
@@ -39,12 +33,15 @@ function Login({ setShowLogin }: IShowLogin) {
         pauseOnHover: true,
       });
     } catch (e: unknown) {
-      toast({
-        message: e.response.data.message,
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      if (e instanceof AxiosError) {
+        const message = getAxiosErrorMessage(e);
+        toast({
+          message: message,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      }
       console.error(e);
     }
   }
@@ -61,7 +58,11 @@ function Login({ setShowLogin }: IShowLogin) {
   return (
     <section className="section ps-form">
       <p className="title has-text-black">Login</p>
-      <form onSubmit={handleLogin}>
+      <form
+        onSubmit={(e) => {
+          void handleLogin(e);
+        }}
+      >
         <div className="field">
           <label htmlFor="email" className="label">
             Email

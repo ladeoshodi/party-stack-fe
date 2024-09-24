@@ -1,14 +1,9 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "bulma-toast";
-
-interface IShowLogin {
-  setShowLogin: (showLogin: boolean) => void;
-}
-
-interface IApiResponse {
-  message: string;
-}
+import { IRegisterApiResponse } from "../interfaces/api";
+import { IShowLogin } from "../interfaces/reactStates";
+import { getAxiosErrorMessage } from "../utils/utils";
 
 function Register({ setShowLogin }: IShowLogin) {
   const [formData, setFormData] = useState({
@@ -22,7 +17,7 @@ function Register({ setShowLogin }: IShowLogin) {
     e.preventDefault();
     try {
       const URL = "/api/user/register";
-      const response = await axios.post<IApiResponse>(URL, formData);
+      const response = await axios.post<IRegisterApiResponse>(URL, formData);
       toast({
         message: response.data.message,
         type: "is-success",
@@ -31,13 +26,16 @@ function Register({ setShowLogin }: IShowLogin) {
       });
       // redirect to login on successful registration
       setShowLogin(true);
-    } catch (e: any) {
-      toast({
-        message: e.response.data.message,
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+    } catch (e: unknown) {
+      if (e instanceof AxiosError) {
+        const message = getAxiosErrorMessage(e);
+        toast({
+          message: message,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      }
       console.error(e);
     }
   }
@@ -54,7 +52,11 @@ function Register({ setShowLogin }: IShowLogin) {
   return (
     <section className="section ps-form">
       <p className="title has-text-black">Register</p>
-      <form onSubmit={handleRegistration}>
+      <form
+        onSubmit={(e) => {
+          void handleRegistration(e);
+        }}
+      >
         <div className="field">
           <label htmlFor="username" className="label">
             Username
