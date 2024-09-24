@@ -1,8 +1,13 @@
 import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "bulma-toast";
 
 interface IShowRegistration {
   setShowRegistration: (showRegistration: boolean) => void;
+}
+
+interface IApiResponse {
+  message: string;
 }
 
 function Register({ setShowRegistration }: IShowRegistration) {
@@ -17,11 +22,22 @@ function Register({ setShowRegistration }: IShowRegistration) {
     e.preventDefault();
     try {
       const URL = "http://localhost:3000/api/user/register";
-      const response = await axios.post(URL, formData);
-      console.log(response.data);
+      const response = await axios.post<IApiResponse>(URL, formData);
+      toast({
+        message: response.data.message,
+        type: "is-success",
+        dismissible: true,
+        pauseOnHover: true,
+      });
       // show the login page
       setShowRegistration(false);
-    } catch (e) {
+    } catch (e: any) {
+      toast({
+        message: e.response.data.message,
+        type: "is-danger",
+        dismissible: true,
+        pauseOnHover: true,
+      });
       console.error(e);
     }
   }
