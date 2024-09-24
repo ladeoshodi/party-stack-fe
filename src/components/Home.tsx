@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { IUser } from "../interfaces/user";
 
 import axios from "axios";
+import NavBar from "./NavBar";
 function Home() {
   const [user, setUser] = useState<IUser | null>(null);
   const navigate = useNavigate();
@@ -41,7 +42,12 @@ function Home() {
 
   //Todo: Add navigation bar and logout functionality
 
-  return <p>Home</p>;
+  return (
+    <>
+      <NavBar />
+      <Outlet />
+    </>
+  );
 }
 
 export default Home;
