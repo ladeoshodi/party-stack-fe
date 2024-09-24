@@ -4,6 +4,8 @@ import { IUser } from "./interfaces/user";
 import axios from "axios";
 import LandingPage from "./components/LandingPage";
 
+import "./styles/App.css";
+
 function App() {
   // To do: Determine where to direct users depending on if logged in or not
   const [user, setUser] = useState<IUser | null>(null);
