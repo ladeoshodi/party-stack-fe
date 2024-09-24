@@ -57,14 +57,14 @@ function Login({ setShowLogin }: IShowLogin) {
 
   return (
     <section className="section ps-form">
-      <p className="title has-text-black">Login</p>
+      <p className="title has-text-grey-dark">Login</p>
       <form
         onSubmit={(e) => {
           void handleLogin(e);
         }}
       >
         <div className="field">
-          <label htmlFor="email" className="label">
+          <label htmlFor="email" className="label has-text-grey-dark">
             Email
           </label>
           <div className="control has-icons-left">
@@ -83,7 +83,7 @@ function Login({ setShowLogin }: IShowLogin) {
           </div>
         </div>
         <div className="field">
-          <label htmlFor="password" className="label">
+          <label htmlFor="password" className="label has-text-grey-dark">
             Password
           </label>
           <div className="control has-icons-left">

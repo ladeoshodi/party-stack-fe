@@ -51,14 +51,14 @@ function Register({ setShowLogin }: IShowLogin) {
 
   return (
     <section className="section ps-form">
-      <p className="title has-text-black">Register</p>
+      <p className="title has-text-grey-dark">Register</p>
       <form
         onSubmit={(e) => {
           void handleRegistration(e);
         }}
       >
         <div className="field">
-          <label htmlFor="username" className="label">
+          <label htmlFor="username" className="label has-text-grey-dark">
             Username
           </label>
           <div className="control has-icons-left">
@@ -77,7 +77,7 @@ function Register({ setShowLogin }: IShowLogin) {
           </div>
         </div>
         <div className="field">
-          <label htmlFor="email" className="label">
+          <label htmlFor="email" className="label has-text-grey-dark">
             Email
           </label>
           <div className="control has-icons-left">
@@ -96,7 +96,7 @@ function Register({ setShowLogin }: IShowLogin) {
           </div>
         </div>
         <div className="field">
-          <label htmlFor="password" className="label">
+          <label htmlFor="password" className="label has-text-grey-dark">
             Password
           </label>
           <div className="control has-icons-left">
@@ -115,7 +115,10 @@ function Register({ setShowLogin }: IShowLogin) {
           </div>
         </div>
         <div className="field">
-          <label htmlFor="passwordConfirmation" className="label">
+          <label
+            htmlFor="passwordConfirmation"
+            className="label has-text-grey-dark"
+          >
             Confirm Password
           </label>
           <div className="control has-icons-left">
