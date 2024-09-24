@@ -3,10 +3,13 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "bulma-toast";
 import { useNavigate } from "react-router-dom";
 import { ILoginApiResponse } from "../interfaces/api";
-import { IShowLogin } from "../interfaces/reactStates";
 import { getAxiosErrorMessage } from "../utils/utils";
 
-function Login({ setShowLogin }: IShowLogin) {
+interface LoginProps {
+  setShowLogin: (showLogin: boolean) => void;
+}
+
+function Login({ setShowLogin }: LoginProps) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",

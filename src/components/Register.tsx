@@ -2,10 +2,13 @@ import axios, { AxiosError } from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "bulma-toast";
 import { IRegisterApiResponse } from "../interfaces/api";
-import { IShowLogin } from "../interfaces/reactStates";
 import { getAxiosErrorMessage } from "../utils/utils";
 
-function Register({ setShowLogin }: IShowLogin) {
+interface RegisterProps {
+  setShowLogin: (showLogin: boolean) => void;
+}
+
+function Register({ setShowLogin }: RegisterProps) {
   const [formData, setFormData] = useState({
     username: "",
     email: "",

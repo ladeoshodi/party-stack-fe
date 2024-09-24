@@ -38,13 +38,9 @@ function Home() {
     }
   }, [navigate]);
 
-  console.log(user);
-
-  //Todo: Add navigation bar and logout functionality
-
   return (
     <>
-      <NavBar />
+      <NavBar user={user} />
       <Outlet />
     </>
   );

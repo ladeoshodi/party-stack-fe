@@ -1,6 +1,20 @@
-import { Link } from "react-router-dom";
+import { MouseEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { IUser } from "../interfaces/user";
 
-function NavBar() {
+interface NavBarProps {
+  user: IUser | null;
+}
+
+function NavBar({ user }: NavBarProps) {
+  const navigate = useNavigate();
+
+  function handleLogOut(e: MouseEvent) {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    navigate("/");
+  }
+
   return (
     <nav
       className="navbar is-dark"
@@ -21,7 +35,10 @@ function NavBar() {
             <figure className="image">
               <img
                 className="is-rounded"
-                src="https://bulma.io/assets/images/placeholders/128x128.png"
+                src={
+                  user?.imageUrl ??
+                  "https://bulma.io/assets/images/placeholders/128x128.png"
+                }
               />
             </figure>
 
@@ -33,12 +50,12 @@ function NavBar() {
                 Submit a new game
               </Link>
               <hr className="navbar-divider" />
-              <Link to="#" className="navbar-item">
+              <Link to="#" className="navbar-item" onClick={handleLogOut}>
                 Logout
               </Link>
             </div>
           </div>
-          <div className="navbar-item">Welcome username</div>
+          <div className="navbar-item">Welcome {user?.username}</div>
         </div>
       </div>
     </nav>
