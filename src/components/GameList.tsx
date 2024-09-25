@@ -15,8 +15,9 @@ function Game({ game }: GameProp) {
           <figure className="image is-4by3">
             <img
               src={
-                game.imageUrl ??
-                "https://bulma.io/assets/images/placeholders/1280x960.png"
+                game.imageUrl
+                  ? game.imageUrl
+                  : "https://bulma.io/assets/images/placeholders/1280x960.png"
               }
               alt={`${game.title} image`}
             />
