@@ -12,7 +12,7 @@ function Home() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    async function fetchUser(token: string) {
+    async function fetchUser() {
       try {
         const URL = "/api/user";
         const response = await axios.get<IUser>(URL, {
@@ -26,13 +26,7 @@ function Home() {
       }
     }
     if (token) {
-      (async () => {
-        await fetchUser(token);
-      })().catch((e) => {
-        console.error(e);
-        // navigate back to landing page if error in getting user
-        navigate("/");
-      });
+      void fetchUser();
     } else {
       // navigate back to landing page if no token
       navigate("/");
