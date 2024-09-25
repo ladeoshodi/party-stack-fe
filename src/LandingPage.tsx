@@ -4,7 +4,7 @@ import Login from "./components/Login";
 
 import "./styles/App.css";
 
-function App() {
+function LandingPage() {
   // Todo: redirect to home page if still logged in by checking if a token exists in local storage
   const [showLogin, setShowLogin] = useState(true);
   return (
@@ -35,4 +35,4 @@ function App() {
   );
 }
 
-export default App;
+export default LandingPage;
