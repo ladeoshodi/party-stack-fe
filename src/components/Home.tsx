@@ -4,6 +4,7 @@ import { IUser } from "../interfaces/user";
 import axios from "axios";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
+import { ContextType } from "../interfaces/ContextType";
 
 function Home() {
   const [user, setUser] = useState<IUser | null>(null);
@@ -37,7 +38,7 @@ function Home() {
     <>
       <NavBar user={user} />
       <div className="main">
-        <Outlet />
+        <Outlet context={{ user } satisfies ContextType} />
       </div>
       <Footer />
     </>
