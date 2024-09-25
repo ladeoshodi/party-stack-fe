@@ -27,7 +27,7 @@ function GameForm() {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast({
-        message: `New game created. Title:${response.data.title}`,
+        message: `New game, ${response.data.title}, created`,
         type: "is-success",
         dismissible: true,
         pauseOnHover: true,
@@ -113,7 +113,9 @@ function GameForm() {
           <textarea
             id="gameSetup"
             className="textarea"
-            placeholder="How to setup the game (enter one instruction per line)"
+            placeholder={
+              "How to setup the game (enter one instruction per line) \n e.g. \n 1. Game setup instruction 1 \n 2. Game setup instruction 2"
+            }
             name="gameSetup"
             value={formData.gameSetup}
             onChange={handleInputChange}
@@ -129,7 +131,9 @@ function GameForm() {
           <textarea
             id="howToPlay"
             className="textarea"
-            placeholder="How to play (enter one instruction per line)"
+            placeholder={
+              "How to play (enter one instruction per line) \n e.g. \n 1. How to play instructions 1 \n 2. how to play instruction 2"
+            }
             name="howToPlay"
             value={formData.howToPlay}
             onChange={handleInputChange}

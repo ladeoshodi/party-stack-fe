@@ -118,11 +118,15 @@ function GameDetail() {
         </div>
         <div className="container">
           <h2 className="title is-4">How to setup the game</h2>
-          <p className="">{game?.gameSetup}</p>
+          {game?.gameSetup.split("\n").map((line, key) => (
+            <p key={key}>{line}</p>
+          ))}
         </div>
         <div className="container">
           <h2 className="title is-4">How to play</h2>
-          <p className="">{game?.howToPlay}</p>
+          {game?.howToPlay.split("\n").map((line, key) => (
+            <p key={key}>{line}</p>
+          ))}
         </div>
         <div className="container has-text-right">
           <p className="is-size-7 ps-inline margin-right-1x">
