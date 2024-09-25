@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { IGame } from "../interfaces/game";
 import { Link } from "react-router-dom";
 
-function HomeContent() {
+function GameList() {
   const [games, setGames] = useState<IGame[] | null>(null);
 
   useEffect(() => {
@@ -38,10 +38,10 @@ function HomeContent() {
       </section>
       <section className="section">
         <h1 className="title">All Games</h1>
-        <div className="columns is-multiline is-mobile">
+        <div className="columns is-multiline">
           {games?.map((game) => {
             return (
-              <div key={game._id} className="column">
+              <div key={game._id} className="column is-one-third">
                 <Link to={`/games/${game._id}`}>
                   <div className="card">
                     <div className="card-image">
@@ -59,7 +59,7 @@ function HomeContent() {
                       <div className="level">
                         <div className="level-left">
                           <div className="level-item">
-                            <p className="title">{game.title}</p>
+                            <p className="title is-4">{game.title}</p>
                           </div>
                           <div className="level-item">
                             {Array.from(
@@ -78,7 +78,7 @@ function HomeContent() {
                     </div>
                     <div className="card-content">
                       <p className="subtitle is-6">Description</p>
-                      <p className="is-size-5">{game.description}</p>
+                      <p className="is-size-6">{game.description}</p>
                     </div>
                   </div>
                 </Link>
@@ -91,4 +91,4 @@ function HomeContent() {
   );
 }
 
-export default HomeContent;
+export default GameList;
