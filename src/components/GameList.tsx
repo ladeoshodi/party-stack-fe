@@ -44,6 +44,9 @@ function Game({ game }: GameProp) {
           <p className="subtitle is-6">Description</p>
           <p className="is-size-6">{game.description}</p>
         </div>
+        <div className="card-content has-text-right is-italic">
+          <p className="is-size-7">Created by: {game.creator.username}</p>
+        </div>
       </div>
     </Link>
   );
