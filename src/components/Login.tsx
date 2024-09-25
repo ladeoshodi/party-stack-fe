@@ -79,6 +79,7 @@ function Login({ setShowLogin }: LoginProps) {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
+              required
             />
             <span className="icon is-small is-left">
               <i className="fas fa-envelope"></i>
@@ -98,6 +99,7 @@ function Login({ setShowLogin }: LoginProps) {
               name="password"
               value={formData.password}
               onChange={handleInputChange}
+              required
             />
             <span className="icon is-small is-left">
               <i className="fas fa-key"></i>

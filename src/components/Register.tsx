@@ -73,6 +73,7 @@ function Register({ setShowLogin }: RegisterProps) {
               name="username"
               value={formData.username}
               onChange={handleInputChange}
+              required
             />
             <span className="icon is-small is-left">
               <i className="fas fa-user"></i>
@@ -92,6 +93,7 @@ function Register({ setShowLogin }: RegisterProps) {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
+              required
             />
             <span className="icon is-small is-left">
               <i className="fas fa-envelope"></i>
@@ -111,6 +113,7 @@ function Register({ setShowLogin }: RegisterProps) {
               name="password"
               value={formData.password}
               onChange={handleInputChange}
+              required
             />
             <span className="icon is-small is-left">
               <i className="fas fa-key"></i>
@@ -133,6 +136,7 @@ function Register({ setShowLogin }: RegisterProps) {
               name="passwordConfirmation"
               value={formData.passwordConfirmation}
               onChange={handleInputChange}
+              required
             />
             <span className="icon is-small is-left">
               <i className="fas fa-key"></i>
