@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { IUser } from "../interfaces/user";
-
 import axios from "axios";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
+
 function Home() {
   const [user, setUser] = useState<IUser | null>(null);
   const navigate = useNavigate();
@@ -41,7 +42,10 @@ function Home() {
   return (
     <>
       <NavBar user={user} />
-      <Outlet />
+      <div className="main">
+        <Outlet />
+      </div>
+      <Footer />
     </>
   );
 }
