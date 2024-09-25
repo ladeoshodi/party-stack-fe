@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
 
 import "./styles/App.css";
 
 function LandingPage() {
-  // Todo: redirect to home page if still logged in by checking if a token exists in local storage
   const [showLogin, setShowLogin] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    // Automatically log the user still signed in
+    if (token) {
+      navigate("/home");
+    }
+  }, [navigate]);
+
   return (
     <>
       <section className="hero is-link is-fullheight">
