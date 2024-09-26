@@ -1,6 +1,5 @@
 import axios, { AxiosError } from "axios";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useUser } from "../hooks/useUser";
 import { IGame } from "../interfaces/game";
 import { useNavigate } from "react-router-dom";
 import { toast } from "bulma-toast";
@@ -18,11 +17,9 @@ interface IFormData {
   gameSetup: string;
   howToPlay: string;
   rating: number;
-  creator?: string;
 }
 
 function GameForm({ editGame = false, game = null }: GameFormProp) {
-  const { user } = useUser();
   const initialFormData = {
     title: "",
     imageUrl: "",
@@ -58,7 +55,7 @@ function GameForm({ editGame = false, game = null }: GameFormProp) {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast({
-        message: `New game, ${response.data.title}, created`,
+        message: `${response.data.title}, created`,
         type: "is-success",
         dismissible: true,
         pauseOnHover: true,
@@ -114,9 +111,6 @@ function GameForm({ editGame = false, game = null }: GameFormProp) {
       ...formData,
       [target.name]: target.value,
     };
-    if (!editGame) {
-      newFormData.creator = user?._id;
-    }
 
     setFormData(newFormData);
   }
