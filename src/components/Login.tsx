@@ -61,7 +61,7 @@ function Login({ setShowLogin }: LoginProps) {
   return (
     <section className="section ps-form">
       <p className="title has-text-grey-dark">Login</p>
-      <form
+      <form className="box"
         onSubmit={(e) => {
           void handleLogin(e);
         }}

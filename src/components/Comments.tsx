@@ -196,6 +196,7 @@ function Comments() {
           </figure>
           <div className="media-content">
             <form
+              className="box"
               ref={commentFormRef}
               onSubmit={(e) => {
                 void handleSubmit(e);

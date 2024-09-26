@@ -116,7 +116,7 @@ function GameForm({ editGame = false, game = null }: GameFormProp) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="box" onSubmit={handleSubmit}>
       <div className="field">
         <label htmlFor="title" className="label has-text-grey-dark">
           Game Title
