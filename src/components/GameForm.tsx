@@ -61,7 +61,7 @@ function GameForm({ editGame = false, game = null }: GameFormProp) {
         pauseOnHover: true,
       });
 
-      navigate("/home");
+      navigate(`/games/${response.data._id}`);
     } catch (e) {
       console.error(e);
     }
