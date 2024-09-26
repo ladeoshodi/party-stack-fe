@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useUser } from "../hooks/useUSer";
+import { useUser } from "../hooks/useUser";
 import { IGame } from "../interfaces/game";
 import { useNavigate } from "react-router-dom";
 import { toast } from "bulma-toast";

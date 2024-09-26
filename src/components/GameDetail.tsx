@@ -3,14 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { IGame } from "../interfaces/game";
 import { IUser } from "../interfaces/user";
-import { useUser } from "../hooks/useUSer";
+import { useUser } from "../hooks/useUser";
 import GameForm from "./GameForm";
 import { toast } from "bulma-toast";
+import { IComment } from "../interfaces/comment";
 
 function GameDetail() {
   const [game, setGame] = useState<IGame | null>(null);
   const [isUserFavourite, setIsUserFavourite] = useState<boolean>(false);
   const [editGame, setEditGame] = useState<boolean>(false);
+  const [comments, setComments] = useState<IComment[] | null>(null);
 
   const { gameId } = useParams();
   const { user } = useUser();
@@ -68,6 +70,27 @@ function GameDetail() {
 
     if (token) {
       void fetchCurrentUser();
+    }
+  }, [gameId, navigate]);
+
+  useEffect(() => {
+    // get all comments
+    const token = localStorage.getItem("token");
+
+    async function fetchGameComments() {
+      try {
+        const URL = `/api/comments/?game=${gameId}`;
+        const response = await axios.get<IComment[]>(URL, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setComments(response.data);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    if (token) {
+      void fetchGameComments();
     }
   }, [gameId]);
 
@@ -218,6 +241,62 @@ function GameDetail() {
         </div>
       </section>
       <hr />
+      <section className="section ps-game-detail">
+        <div className="container has-text-centered ">
+          <h1 className="title ps-inline margin-right-1x">
+            Comments ({comments?.length})
+          </h1>
+        </div>
+        {comments?.map((comment) => {
+          return (
+            <div key={comment._id} className="container">
+              <div className="media">
+                <figure className="media-left">
+                  <p className="image is-64x64">
+                    <img
+                      src={
+                        comment.author.imageUrl
+                          ? comment.author.imageUrl
+                          : "https://bulma.io/assets/images/placeholders/128x128.png"
+                      }
+                    />
+                  </p>
+                </figure>
+                <div className="media-content">
+                  <div className="content">
+                    <p>
+                      <strong>{comment.author.username}</strong>{" "}
+                      <small>
+                        {new Date(comment.createdAt).toLocaleString()}
+                      </small>
+                      <br />
+                      {comment.text}
+                    </p>
+                  </div>
+                  <nav className="level is-mobile">
+                    <div className="level-left">
+                      {user?._id === comment.author._id && (
+                        <>
+                          <div className="level-item">
+                            <button className="button is-success is-small">
+                              Edit
+                            </button>
+                          </div>
+                          <div className="level-item">
+                            <button className="button is-danger is-small">
+                              Delete
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </section>
     </>
   );
 }
