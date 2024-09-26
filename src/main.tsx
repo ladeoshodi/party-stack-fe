@@ -6,6 +6,7 @@ import Home from "./components/Home.tsx";
 import GameList from "./components/GameList.tsx";
 import GameDetail from "./components/GameDetail.tsx";
 import SubmitGame from "./components/SubmitGame.tsx";
+import Favourites from "./components/Favourites.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       { path: "home", element: <GameList /> },
       { path: "games/:gameId", element: <GameDetail /> },
-      { path: "favourites", element: <p>Favourites</p> },
+      { path: "favourites", element: <Favourites /> },
       { path: "submit-game", element: <SubmitGame /> },
       { path: "profile", element: <p>User Profile</p> },
     ],
