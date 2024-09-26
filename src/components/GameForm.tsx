@@ -1,25 +1,56 @@
-import axios from "axios";
-import { ChangeEvent, FormEvent, useState } from "react";
+import axios, { AxiosError } from "axios";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useUser } from "../hooks/useUSer";
 import { IGame } from "../interfaces/game";
 import { useNavigate } from "react-router-dom";
 import { toast } from "bulma-toast";
+import { getAxiosErrorMessage } from "../utils/utils";
 
-function GameForm() {
+interface GameFormProp {
+  editGame?: boolean;
+  game?: IGame | null;
+}
+
+interface IFormData {
+  title: string;
+  imageUrl: string;
+  description: string;
+  gameSetup: string;
+  howToPlay: string;
+  rating: number;
+  creator?: string;
+}
+
+function GameForm({ editGame = false, game = null }: GameFormProp) {
+  const { user } = useUser();
   const initialFormData = {
     title: "",
     imageUrl: "",
     description: "",
     gameSetup: "",
     howToPlay: "",
-    rating: "",
+    rating: 0,
   };
-  const { user } = useUser();
-  const [formData, setFormData] = useState(initialFormData);
+
+  const [formData, setFormData] = useState<IFormData>(initialFormData);
   const navigate = useNavigate();
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+  useEffect(() => {
+    // populate form with the existing game data
+    if (editGame) {
+      const updatedFormData = {
+        title: game?.title ?? "",
+        imageUrl: game?.imageUrl ?? "",
+        description: game?.description ?? "",
+        gameSetup: game?.gameSetup ?? "",
+        howToPlay: game?.howToPlay ?? "",
+        rating: game?.rating ?? 0,
+      };
+      setFormData(updatedFormData);
+    }
+  }, [editGame, game]);
+
+  async function submitNewGame() {
     try {
       const token = localStorage.getItem("token");
       const URL = "/api/games";
@@ -39,22 +70,59 @@ function GameForm() {
     }
   }
 
+  async function editCurrentGame() {
+    try {
+      const token = localStorage.getItem("token");
+      const URL = `/api/games/${game?._id}`;
+      await axios.put<IGame>(URL, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      toast({
+        message: "Game Updated!",
+        type: "is-success",
+        dismissible: true,
+        pauseOnHover: true,
+      });
+
+      navigate(0);
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        const message = getAxiosErrorMessage(e);
+        toast({
+          message: message,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      }
+      console.error(e);
+    }
+  }
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    if (!editGame) {
+      void submitNewGame();
+    } else {
+      void editCurrentGame();
+    }
+  }
+
   function handleInputChange(e: ChangeEvent<HTMLElement>) {
     const target = e.target as HTMLInputElement;
     const newFormData = {
       ...formData,
       [target.name]: target.value,
-      creator: user?._id,
     };
+    if (!editGame) {
+      newFormData.creator = user?._id;
+    }
+
     setFormData(newFormData);
   }
 
   return (
-    <form
-      onSubmit={(e) => {
-        void handleSubmit(e);
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <div className="field">
         <label htmlFor="title" className="label has-text-grey-dark">
           Game Title
@@ -160,7 +228,9 @@ function GameForm() {
           />
         </div>
       </div>
-      <button className="button">Submit New Game</button>
+      <button className="button">
+        {editGame ? "Edit Game" : "Submit New Game"}
+      </button>
     </form>
   );
 }

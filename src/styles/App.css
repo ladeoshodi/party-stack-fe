@@ -47,12 +47,27 @@ body {
   padding-bottom: 0.5rem;
 }
 
+.ps-game-detail-footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
 .ps-inline {
   display: inline-block;
 }
 
 .margin-right-1x {
   margin-right: 1rem;
+}
+
+.modal-background {
+  background-color: #f5d08c;
+}
+
+.modal-content {
+  padding: 1rem;
+  text-align: left;
 }
 
 @media screen and (min-width: 1024px) {

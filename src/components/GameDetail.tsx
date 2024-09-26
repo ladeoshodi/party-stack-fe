@@ -1,14 +1,19 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { IGame } from "../interfaces/game";
 import { IUser } from "../interfaces/user";
+import { useUser } from "../hooks/useUSer";
+import GameForm from "./GameForm";
 
 function GameDetail() {
   const [game, setGame] = useState<IGame | null>(null);
   const [isUserFavourite, setIsUserFavourite] = useState<boolean>(false);
+  const [editGame, setEditGame] = useState<boolean>(false);
 
   const { gameId } = useParams();
+  const { user } = useUser();
+  const editGameModal = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -88,6 +93,19 @@ function GameDetail() {
     }
   }
 
+  function showEditGame() {
+    editGameModal.current?.classList.toggle("is-active");
+    if (editGame) {
+      setEditGame(false);
+    } else {
+      setEditGame(true);
+    }
+  }
+
+  async function deleteGame() {
+    //
+  }
+
   return (
     <>
       <section className="section has-text-centered ps-game-detail">
@@ -128,24 +146,52 @@ function GameDetail() {
             <p key={key}>{line}</p>
           ))}
         </div>
-        <div className="container has-text-right">
-          <p className="is-size-7 ps-inline margin-right-1x">
+        <div className="container ps-game-detail-footer">
+          <p className="is-size-7 margin-right-1x">
             Created by: {game?.creator.username}
           </p>
           <div
-            className="ps-inline hover-pointer"
+            className="ps-inline hover-pointer margin-right-1x"
             onClick={() => void toggleFavourite()}
           >
             {isUserFavourite ? (
               <span className="icon">
-                <i className="fas fa-heart"></i>
+                <i className="fas fa-heart fa-lg"></i>
               </span>
             ) : (
               <span className="icon">
-                <i className="far fa-heart"></i>
+                <i className="far fa-heart fa-lg"></i>
               </span>
             )}
           </div>
+          {user?._id === game?.creator._id && (
+            <>
+              <div className="modal" ref={editGameModal}>
+                <div className="modal-background"></div>
+                <div className="modal-content">
+                  <h1 className="title has-text-centered">Edit Current Game</h1>
+                  <GameForm editGame={editGame} game={game} />
+                </div>
+                <button
+                  className="modal-close is-large"
+                  aria-label="close"
+                  onClick={showEditGame}
+                ></button>
+              </div>
+              <button
+                className="button is-success is-small margin-right-1x"
+                onClick={showEditGame}
+              >
+                Edit
+              </button>
+              <button
+                className="button is-danger is-small"
+                onClick={() => void deleteGame}
+              >
+                Delete
+              </button>
+            </>
+          )}
         </div>
       </section>
       <hr />
