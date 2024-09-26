@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { IGame } from "../interfaces/game";
 import { IUser } from "../interfaces/user";
 import { useUser } from "../hooks/useUSer";
 import GameForm from "./GameForm";
+import { toast } from "bulma-toast";
 
 function GameDetail() {
   const [game, setGame] = useState<IGame | null>(null);
@@ -14,6 +15,7 @@ function GameDetail() {
   const { gameId } = useParams();
   const { user } = useUser();
   const editGameModal = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -26,6 +28,8 @@ function GameDetail() {
         });
         setGame(response.data);
       } catch (e) {
+        // navigate back to home if game not found
+        navigate("/home");
         console.error(e);
       }
     }
@@ -33,7 +37,7 @@ function GameDetail() {
     if (token) {
       void fetchGame();
     }
-  }, [gameId]);
+  }, [gameId, navigate]);
 
   useEffect(() => {
     // check and set if game is part of the current User's favourites
@@ -56,6 +60,8 @@ function GameDetail() {
           }
         }
       } catch (e) {
+        // logout if error getting user
+        navigate("/");
         console.error(e);
       }
     }
@@ -103,7 +109,24 @@ function GameDetail() {
   }
 
   async function deleteGame() {
-    //
+    const token = localStorage.getItem("token");
+
+    try {
+      const URL = `/api/games/${gameId}`;
+      await axios.delete(URL, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      toast({
+        message: "Game Deleted Successfully!",
+        type: "is-success",
+        dismissible: true,
+        pauseOnHover: true,
+      });
+      navigate("/home");
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (
@@ -186,7 +209,7 @@ function GameDetail() {
               </button>
               <button
                 className="button is-danger is-small"
-                onClick={() => void deleteGame}
+                onClick={() => void deleteGame()}
               >
                 Delete
               </button>

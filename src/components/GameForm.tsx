@@ -153,7 +153,6 @@ function GameForm({ editGame = false, game = null }: GameFormProp) {
             name="imageUrl"
             value={formData.imageUrl}
             onChange={handleInputChange}
-            required
           />
         </div>
       </div>
