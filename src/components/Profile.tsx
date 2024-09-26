@@ -6,12 +6,10 @@ import { toast } from "bulma-toast";
 import { getAxiosErrorMessage } from "../utils/utils";
 import GameCard from "./GameCard";
 import { Link } from "react-router-dom";
-import { IComment } from "../interfaces/comment";
 
 function Profile() {
   const { user } = useUser();
   const [userGames, setUserGames] = useState<IGame[] | null>(null);
-  const [userComments, setUserComments] = useState<IComment[] | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -98,10 +96,6 @@ function Profile() {
             Submit a new game
           </Link>
         </div>
-      </section>
-      <hr className="horizontal-rule" />
-      <section className="section">
-        <h1 className="title has-text-centered">Your Comments</h1>
       </section>
       <hr className="horizontal-rule" />
       <section className="section">
