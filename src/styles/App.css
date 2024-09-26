@@ -97,6 +97,17 @@ body {
   flex: 1;
 }
 
+.flex-center-x {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-column-center-x {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @media screen and (min-width: 1024px) {
   .navbar-item.has-dropdown {
     align-items: center;
