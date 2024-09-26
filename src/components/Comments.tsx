@@ -175,7 +175,7 @@ function Comments() {
   }
 
   return (
-    <section className="section ps-game-detail">
+    <section className="section ps-game-detail has-background-link-light">
       <div className="container has-text-centered ">
         <h1 className="title ps-inline margin-right-1x">
           Comments ({comments?.length})
