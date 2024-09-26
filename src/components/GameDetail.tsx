@@ -225,7 +225,7 @@ function GameDetail() {
           )}
         </div>
       </section>
-      <hr />
+      <hr className="horizontal-rule" />
       <Comments />
     </>
   );

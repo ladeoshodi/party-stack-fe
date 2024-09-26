@@ -8,12 +8,13 @@ body {
   font-family: "Poppins", system-ui;
   font-weight: 400;
   font-style: normal;
+  background-color: rgb(237 237 237);
+  min-height: 100vh;
 }
 
 #root {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 
 .main {
@@ -68,6 +69,19 @@ body {
 .modal-content {
   padding: 1rem;
   text-align: left;
+}
+
+.horizontal-rule {
+  background-color: #5a0718;
+  height: 30px;
+}
+
+.width-fit-content {
+  width: fit-content;
+}
+
+.flex-shrink-1 {
+  flex-shrink: 1;
 }
 
 .error-page {

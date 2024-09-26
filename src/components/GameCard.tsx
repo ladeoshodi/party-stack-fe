@@ -23,9 +23,9 @@ function GameCard({ game }: GameCardProp) {
         </div>
         <div className="card-content">
           <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <p className="title is-4">{game.title}</p>
+            <div className="level-left width-fit-content">
+              <div className="level-item flex-shrink-1">
+                <p className="title is-5">{game.title}</p>
               </div>
               <div className="level-item">
                 {Array.from({ length: game.rating ?? 0 }, (_, key) => {
