@@ -145,6 +145,35 @@ function Comments() {
     }
   }
 
+  async function deleteComment(commentId: string) {
+    try {
+      const token = localStorage.getItem("token");
+      const URL = `/api/comments/${commentId}`;
+      await axios.delete(URL, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      toast({
+        message: "Comment Deleted!",
+        type: "is-success",
+        dismissible: true,
+        pauseOnHover: true,
+      });
+      setFormData(initialFormData);
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        const message = getAxiosErrorMessage(e);
+        toast({
+          message: message,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      }
+      console.error(e);
+    }
+  }
+
   return (
     <section className="section ps-game-detail">
       <div className="container has-text-centered ">
@@ -236,7 +265,7 @@ function Comments() {
                   <p>
                     <strong>{comment.author.username}</strong>{" "}
                     <small>
-                      {new Date(comment.createdAt).toLocaleString()}
+                      {new Date(comment.updatedAt).toLocaleString()}
                     </small>
                     <br />
                     {comment.text}
@@ -257,7 +286,10 @@ function Comments() {
                           </button>
                         </div>
                         <div className="level-item">
-                          <button className="button is-danger is-small">
+                          <button
+                            className="button is-danger is-small"
+                            onClick={() => void deleteComment(comment._id)}
+                          >
                             Delete
                           </button>
                         </div>
