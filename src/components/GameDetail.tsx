@@ -29,6 +29,13 @@ function GameDetail() {
         });
         setGame(response.data);
       } catch (e) {
+        toast({
+          message: "Cannot find game",
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+
         // navigate back to home if game not found
         navigate("/home");
         console.error(e);

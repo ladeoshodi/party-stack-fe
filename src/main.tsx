@@ -7,11 +7,13 @@ import GameList from "./components/GameList.tsx";
 import GameDetail from "./components/GameDetail.tsx";
 import SubmitGame from "./components/SubmitGame.tsx";
 import Favourites from "./components/Favourites.tsx";
+import ErrorPage from "./components/ErrorPage.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/",
