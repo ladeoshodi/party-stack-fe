@@ -1,4 +1,11 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useUser } from "../hooks/useUser";
 import { IComment } from "../interfaces/comment";
 import axios, { AxiosError } from "axios";
@@ -6,16 +13,24 @@ import { useParams } from "react-router-dom";
 import { toast } from "bulma-toast";
 import { getAxiosErrorMessage } from "../utils/utils";
 
+interface IFormData {
+  text: string;
+  game?: string;
+}
+
 function Comments() {
   const initialFormData = {
     text: "",
   };
 
   const [comments, setComments] = useState<IComment[] | null>(null);
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState<IFormData>(initialFormData);
+  const [isEditComment, setIsEditComment] = useState<boolean>(false);
 
   const { user } = useUser();
   const { gameId } = useParams();
+  const commentFormRef = useRef<HTMLFormElement | null>(null);
+  const currentCommentRef = useRef<string | null>(null);
 
   useEffect(() => {
     // get all comments
@@ -72,10 +87,62 @@ function Comments() {
     const newFormData = {
       ...formData,
       [target.name]: target.value,
-      game: gameId,
     };
 
+    if (!isEditComment) {
+      newFormData.game = gameId;
+    }
+
     setFormData(newFormData);
+  }
+
+  function cancelEdit() {
+    setIsEditComment(false);
+    setFormData(initialFormData);
+  }
+
+  function closeEditForm(e: MouseEvent) {
+    e.preventDefault();
+    cancelEdit();
+  }
+
+  function shouldEditComment(commentText: string, commentId: string) {
+    setIsEditComment(true);
+    setFormData({ text: commentText });
+    currentCommentRef.current = commentId;
+    commentFormRef.current?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  async function submitEdit(e: MouseEvent) {
+    e.preventDefault();
+
+    try {
+      const token = localStorage.getItem("token");
+      const URL = `/api/comments/${currentCommentRef.current}`;
+      await axios.put<IComment>(URL, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      toast({
+        message: "Comment Updated!",
+        type: "is-success",
+        dismissible: true,
+        pauseOnHover: true,
+      });
+
+      cancelEdit();
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        const message = getAxiosErrorMessage(e);
+        toast({
+          message: message,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      }
+      console.error(e);
+    }
   }
 
   return (
@@ -100,6 +167,7 @@ function Comments() {
           </figure>
           <div className="media-content">
             <form
+              ref={commentFormRef}
               onSubmit={(e) => {
                 void handleSubmit(e);
               }}
@@ -118,9 +186,30 @@ function Comments() {
               </div>
               <nav className="level">
                 <div className="level-left">
-                  <div className="level-item">
-                    <button className="button is-dark">Submit</button>
-                  </div>
+                  {isEditComment ? (
+                    <>
+                      <div className="level-item">
+                        <button
+                          className="button is-success"
+                          onClick={(e) => void submitEdit(e)}
+                        >
+                          Edit comment
+                        </button>
+                      </div>
+                      <div className="level-item">
+                        <button
+                          className="button is-danger"
+                          onClick={closeEditForm}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="level-item">
+                      <button className="button is-dark">Submit</button>
+                    </div>
+                  )}
                 </div>
               </nav>
             </form>
@@ -158,7 +247,12 @@ function Comments() {
                     {user?._id === comment.author._id && (
                       <>
                         <div className="level-item">
-                          <button className="button is-success is-small">
+                          <button
+                            className="button is-success is-small"
+                            onClick={() => {
+                              shouldEditComment(comment.text, comment._id);
+                            }}
+                          >
                             Edit
                           </button>
                         </div>
