@@ -8,10 +8,12 @@ import GameCard from "./GameCard";
 import { Link } from "react-router-dom";
 import { IUser } from "../interfaces/user";
 import UpdateProfile from "./UpdateProfile";
+import UpdatePassword from "./UpdatePassword";
 
 function Profile() {
   const { user } = useUser();
   const updateProfileFormRef = useRef<HTMLDivElement | null>(null);
+  const updatePasswordFormRef = useRef<HTMLDivElement | null>(null);
 
   const [currentUser, setCurrentUser] = useState<IUser | null>(user);
   const [userGames, setUserGames] = useState<IGame[] | null>(null);
@@ -48,6 +50,9 @@ function Profile() {
 
   function showUpdateProfileModal() {
     updateProfileFormRef.current?.classList.toggle("is-active");
+  }
+  function showUpdatePasswordModal() {
+    updatePasswordFormRef.current?.classList.toggle("is-active");
   }
 
   return (
@@ -88,7 +93,10 @@ function Profile() {
                     </button>
                   </div>
                   <div className="level-item">
-                    <button className="button is-medium is-link">
+                    <button
+                      className="button is-medium is-link"
+                      onClick={showUpdatePasswordModal}
+                    >
                       Change Password
                     </button>
                   </div>
@@ -130,6 +138,11 @@ function Profile() {
         showUpdateProfileModal={showUpdateProfileModal}
         setCurrentUser={setCurrentUser}
         ref={updateProfileFormRef}
+      />
+      <UpdatePassword
+        showUpdatePasswordModal={showUpdatePasswordModal}
+        setCurrentUser={setCurrentUser}
+        ref={updatePasswordFormRef}
       />
     </>
   );
