@@ -1,8 +1,10 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { IUser } from "../interfaces/user";
 import { IGame } from "../interfaces/game";
 import GameCard from "./GameCard";
+import { getAxiosErrorMessage } from "../utils/utils";
+import { toast } from "bulma-toast";
 
 function Favourites() {
   const [favourites, setFavourites] = useState<IGame[]>([]);
@@ -21,7 +23,15 @@ function Favourites() {
           setFavourites(response.data.favourites);
         }
       } catch (e) {
-        console.error(e);
+        if (e instanceof AxiosError) {
+          const message = getAxiosErrorMessage(e);
+          toast({
+            message: message,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        }
       }
     }
 

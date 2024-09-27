@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { IGame } from "../interfaces/game";
@@ -7,6 +7,7 @@ import { useUser } from "../hooks/useUser";
 import GameForm from "./GameForm";
 import { toast } from "bulma-toast";
 import Comments from "./Comments";
+import { getAxiosErrorMessage } from "../utils/utils";
 
 function GameDetail() {
   const [game, setGame] = useState<IGame | null>(null);
@@ -29,16 +30,18 @@ function GameDetail() {
         });
         setGame(response.data);
       } catch (e) {
-        toast({
-          message: "Cannot find game",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        if (e instanceof AxiosError) {
+          const message = getAxiosErrorMessage(e);
+          toast({
+            message: message,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        }
 
         // navigate back to home if game not found
         navigate("/home");
-        console.error(e);
       }
     }
 
@@ -68,9 +71,17 @@ function GameDetail() {
           }
         }
       } catch (e) {
+        if (e instanceof AxiosError) {
+          const message = getAxiosErrorMessage(e);
+          toast({
+            message: message,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        }
         // logout if error getting user
         navigate("/");
-        console.error(e);
       }
     }
 
@@ -91,7 +102,15 @@ function GameDetail() {
         });
         setIsUserFavourite(false);
       } catch (e) {
-        console.error(e);
+        if (e instanceof AxiosError) {
+          const message = getAxiosErrorMessage(e);
+          toast({
+            message: message,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        }
       }
     } else {
       try {
@@ -102,7 +121,15 @@ function GameDetail() {
         });
         setIsUserFavourite(true);
       } catch (e) {
-        console.error(e);
+        if (e instanceof AxiosError) {
+          const message = getAxiosErrorMessage(e);
+          toast({
+            message: message,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        }
       }
     }
   }
@@ -133,7 +160,15 @@ function GameDetail() {
       });
       navigate("/home");
     } catch (e) {
-      console.error(e);
+      if (e instanceof AxiosError) {
+        const message = getAxiosErrorMessage(e);
+        toast({
+          message: message,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      }
     }
   }
 

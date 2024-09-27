@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { IUser } from "../interfaces/user";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import { ContextType } from "../interfaces/ContextType";
+import { getAxiosErrorMessage } from "../utils/utils";
+import { toast } from "bulma-toast";
 
 function Home() {
   const [user, setUser] = useState<IUser | null>(null);
@@ -21,7 +23,15 @@ function Home() {
         });
         setUser(response.data);
       } catch (e) {
-        console.error(e);
+        if (e instanceof AxiosError) {
+          const message = getAxiosErrorMessage(e);
+          toast({
+            message: message,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        }
         // navigate back to landing page if error in getting user
         navigate("/");
       }

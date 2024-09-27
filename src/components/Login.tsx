@@ -45,7 +45,15 @@ function Login({ setShowLogin }: LoginProps) {
           pauseOnHover: true,
         });
       }
-      console.error(e);
+      if (e instanceof AxiosError) {
+        const message = getAxiosErrorMessage(e);
+        toast({
+          message: message,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      };
     }
   }
 

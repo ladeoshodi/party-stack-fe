@@ -63,7 +63,15 @@ function GameForm({ editGame = false, game = null }: GameFormProp) {
 
       navigate(`/games/${response.data._id}`);
     } catch (e) {
-      console.error(e);
+      if (e instanceof AxiosError) {
+        const message = getAxiosErrorMessage(e);
+        toast({
+          message: message,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      }
     }
   }
 
@@ -92,7 +100,15 @@ function GameForm({ editGame = false, game = null }: GameFormProp) {
           pauseOnHover: true,
         });
       }
-      console.error(e);
+      if (e instanceof AxiosError) {
+        const message = getAxiosErrorMessage(e);
+        toast({
+          message: message,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      }
     }
   }
 

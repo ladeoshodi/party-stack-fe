@@ -39,7 +39,6 @@ function Register({ setShowLogin }: RegisterProps) {
           pauseOnHover: true,
         });
       }
-      console.error(e);
     }
   }
 
@@ -55,7 +54,8 @@ function Register({ setShowLogin }: RegisterProps) {
   return (
     <section className="section ps-form">
       <p className="title has-text-grey-dark">Register</p>
-      <form className="box"
+      <form
+        className="box"
         onSubmit={(e) => {
           void handleRegistration(e);
         }}
