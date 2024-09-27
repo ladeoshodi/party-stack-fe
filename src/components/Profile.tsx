@@ -9,11 +9,13 @@ import { Link } from "react-router-dom";
 import { IUser } from "../interfaces/user";
 import UpdateProfile from "./UpdateProfile";
 import UpdatePassword from "./UpdatePassword";
+import DeleteProfile from "./DeleteProfile";
 
 function Profile() {
   const { user } = useUser();
   const updateProfileFormRef = useRef<HTMLDivElement | null>(null);
   const updatePasswordFormRef = useRef<HTMLDivElement | null>(null);
+  const deleteProfileFormRef = useRef<HTMLDivElement | null>(null);
 
   const [currentUser, setCurrentUser] = useState<IUser | null>(user);
   const [userGames, setUserGames] = useState<IGame[] | null>(null);
@@ -53,6 +55,9 @@ function Profile() {
   }
   function showUpdatePasswordModal() {
     updatePasswordFormRef.current?.classList.toggle("is-active");
+  }
+  function showDeleteProfileModal() {
+    deleteProfileFormRef.current?.classList.toggle("is-active");
   }
 
   return (
@@ -128,7 +133,9 @@ function Profile() {
       <section className="section">
         <h1 className="title has-text-centered has-text-danger">DANGER ZONE</h1>
         <div className="container has-text-centered">
-          <button className="button is-danger">DELETE ACCOUNT</button>
+          <button className="button is-danger" onClick={showDeleteProfileModal}>
+            DELETE ACCOUNT
+          </button>
         </div>
       </section>
       <hr className="horizontal-rule" />
@@ -143,6 +150,11 @@ function Profile() {
         showUpdatePasswordModal={showUpdatePasswordModal}
         setCurrentUser={setCurrentUser}
         ref={updatePasswordFormRef}
+      />
+      <DeleteProfile
+        currentUser={currentUser}
+        showDeleteProfileModal={showDeleteProfileModal}
+        ref={deleteProfileFormRef}
       />
     </>
   );
