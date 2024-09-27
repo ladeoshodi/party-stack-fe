@@ -3,6 +3,7 @@ import { IUser } from "../interfaces/user";
 import axios, { AxiosError } from "axios";
 import { toast } from "bulma-toast";
 import { getAxiosErrorMessage } from "../utils/utils";
+import { baseUrl } from "../config";
 
 interface UpdatePasswordProp {
   showUpdatePasswordModal: () => void;
@@ -42,7 +43,7 @@ const UpdatePassword = forwardRef<HTMLDivElement, UpdatePasswordProp>(
         }
 
         const token = localStorage.getItem("token");
-        const URL = "/api/user";
+        const URL = `${baseUrl}/user`;
         const response = await axios.put<IUser>(URL, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });

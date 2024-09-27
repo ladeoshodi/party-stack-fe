@@ -5,6 +5,7 @@ import { IGame } from "../interfaces/game";
 import GameCard from "./GameCard";
 import { getAxiosErrorMessage } from "../utils/utils";
 import { toast } from "bulma-toast";
+import { baseUrl } from "../config";
 
 function Favourites() {
   const [favourites, setFavourites] = useState<IGame[]>([]);
@@ -14,7 +15,7 @@ function Favourites() {
 
     async function fetchCurrentUserFavourites() {
       try {
-        const URL = "/api/user";
+        const URL = `${baseUrl}/user`;
         const response = await axios.get<IUser>(URL, {
           headers: { Authorization: `Bearer ${token}` },
         });

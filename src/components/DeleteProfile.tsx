@@ -4,6 +4,7 @@ import { toast } from "bulma-toast";
 import axios, { AxiosError } from "axios";
 import { getAxiosErrorMessage } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../config";
 
 interface DeleteProfileProp {
   currentUser: IUser | null;
@@ -40,7 +41,7 @@ const DeleteProfile = forwardRef<HTMLDivElement, DeleteProfileProp>(
         }
 
         const token = localStorage.getItem("token");
-        const URL = "/api/user";
+        const URL = `${baseUrl}/user`;
         await axios.delete(URL, {
           headers: { Authorization: `Bearer ${token}` },
         });

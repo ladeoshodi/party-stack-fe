@@ -4,6 +4,7 @@ import { IGame } from "../interfaces/game";
 import GameCard from "./GameCard";
 import { getAxiosErrorMessage } from "../utils/utils";
 import { toast } from "bulma-toast";
+import { baseUrl } from "../config";
 
 function GameList() {
   const [games, setGames] = useState<IGame[] | null>(null);
@@ -13,7 +14,7 @@ function GameList() {
 
     async function fetchGames() {
       try {
-        const URL = "/api/games";
+        const URL = `${baseUrl}/games`;
         const response = await axios.get<IGame[]>(URL, {
           headers: { Authorization: `Bearer ${token}` },
         });

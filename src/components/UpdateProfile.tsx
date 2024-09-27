@@ -10,6 +10,7 @@ import { IUser } from "../interfaces/user";
 import { toast } from "bulma-toast";
 import axios, { AxiosError } from "axios";
 import { getAxiosErrorMessage } from "../utils/utils";
+import { baseUrl } from "../config";
 
 interface UpdateProfileProp {
   currentUser: IUser | null;
@@ -59,7 +60,7 @@ const UpdateProfile = forwardRef<HTMLDivElement, UpdateProfileProp>(
       e.preventDefault();
       try {
         const token = localStorage.getItem("token");
-        const URL = "/api/user";
+        const URL = `${baseUrl}/user`;
         const response = await axios.put<IUser>(URL, profileFormData, {
           headers: { Authorization: `Bearer ${token}` },
         });

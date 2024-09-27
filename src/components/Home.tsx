@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import { ContextType } from "../interfaces/ContextType";
 import { getAxiosErrorMessage } from "../utils/utils";
 import { toast } from "bulma-toast";
+import { baseUrl } from "../config";
 
 function Home() {
   const [user, setUser] = useState<IUser | null>(null);
@@ -17,7 +18,7 @@ function Home() {
 
     async function fetchUser() {
       try {
-        const URL = "/api/user";
+        const URL = `${baseUrl}/user`;
         const response = await axios.get<IUser>(URL, {
           headers: { Authorization: `Bearer ${token}` },
         });

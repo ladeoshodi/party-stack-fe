@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "bulma-toast";
 import { IRegisterApiResponse } from "../interfaces/api";
 import { getAxiosErrorMessage } from "../utils/utils";
+import { baseUrl } from "../config";
 
 interface RegisterProps {
   setShowLogin: (showLogin: boolean) => void;
@@ -19,7 +20,7 @@ function Register({ setShowLogin }: RegisterProps) {
   async function handleRegistration(e: FormEvent) {
     e.preventDefault();
     try {
-      const URL = "/api/user/register";
+      const URL = `${baseUrl}/user/register`;
       const response = await axios.post<IRegisterApiResponse>(URL, formData);
       toast({
         message: response.data.message,

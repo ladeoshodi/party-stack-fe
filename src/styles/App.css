@@ -108,6 +108,10 @@ body {
   align-items: center;
 }
 
+.ps-profile-img img {
+  max-height: 100%;
+}
+
 @media screen and (min-width: 1024px) {
   .navbar-item.has-dropdown {
     align-items: center;

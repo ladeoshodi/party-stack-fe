@@ -4,6 +4,7 @@ import { toast } from "bulma-toast";
 import { useNavigate } from "react-router-dom";
 import { ILoginApiResponse } from "../interfaces/api";
 import { getAxiosErrorMessage } from "../utils/utils";
+import { baseUrl } from "../config";
 
 interface LoginProps {
   setShowLogin: (showLogin: boolean) => void;
@@ -20,7 +21,7 @@ function Login({ setShowLogin }: LoginProps) {
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
     try {
-      const URL = "/api/user/login";
+      const URL = `${baseUrl}/user/login`;
       const response = await axios.post<ILoginApiResponse>(URL, formData);
 
       // save the token on successful login

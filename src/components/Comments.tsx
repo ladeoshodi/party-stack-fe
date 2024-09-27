@@ -12,6 +12,7 @@ import axios, { AxiosError } from "axios";
 import { useParams } from "react-router-dom";
 import { toast } from "bulma-toast";
 import { getAxiosErrorMessage } from "../utils/utils";
+import { baseUrl } from "../config";
 
 interface IFormData {
   text: string;
@@ -38,7 +39,7 @@ function Comments() {
 
     async function fetchGameComments() {
       try {
-        const URL = `/api/comments/?game=${gameId}`;
+        const URL = `${baseUrl}/comments/?game=${gameId}`;
         const response = await axios.get<IComment[]>(URL, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -65,7 +66,7 @@ function Comments() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const URL = "/api/comments";
+      const URL = `${baseUrl}/comments`;
       await axios.post<IComment>(URL, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -125,7 +126,7 @@ function Comments() {
 
     try {
       const token = localStorage.getItem("token");
-      const URL = `/api/comments/${currentCommentRef.current}`;
+      const URL = `${baseUrl}/comments/${currentCommentRef.current}`;
       await axios.put<IComment>(URL, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -154,7 +155,7 @@ function Comments() {
   async function deleteComment(commentId: string) {
     try {
       const token = localStorage.getItem("token");
-      const URL = `/api/comments/${commentId}`;
+      const URL = `${baseUrl}/comments/${commentId}`;
       await axios.delete(URL, {
         headers: { Authorization: `Bearer ${token}` },
       });

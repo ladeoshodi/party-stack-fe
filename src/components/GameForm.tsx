@@ -4,6 +4,7 @@ import { IGame } from "../interfaces/game";
 import { useNavigate } from "react-router-dom";
 import { toast } from "bulma-toast";
 import { getAxiosErrorMessage } from "../utils/utils";
+import { baseUrl } from "../config";
 
 interface GameFormProp {
   editGame?: boolean;
@@ -50,7 +51,7 @@ function GameForm({ editGame = false, game = null }: GameFormProp) {
   async function submitNewGame() {
     try {
       const token = localStorage.getItem("token");
-      const URL = "/api/games";
+      const URL = `${baseUrl}/games`;
       const response = await axios.post<IGame>(URL, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -78,7 +79,7 @@ function GameForm({ editGame = false, game = null }: GameFormProp) {
   async function editCurrentGame() {
     try {
       const token = localStorage.getItem("token");
-      const URL = `/api/games/${game?._id}`;
+      const URL = `${baseUrl}/games/${game?._id}`;
       await axios.put<IGame>(URL, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });

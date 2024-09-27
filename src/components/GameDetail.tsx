@@ -8,6 +8,7 @@ import GameForm from "./GameForm";
 import { toast } from "bulma-toast";
 import Comments from "./Comments";
 import { getAxiosErrorMessage } from "../utils/utils";
+import { baseUrl } from "../config";
 
 function GameDetail() {
   const [game, setGame] = useState<IGame | null>(null);
@@ -24,7 +25,7 @@ function GameDetail() {
 
     async function fetchGame() {
       try {
-        const URL = `/api/games/${gameId}`;
+        const URL = `${baseUrl}/games/${gameId}`;
         const response = await axios.get<IGame>(URL, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -60,7 +61,7 @@ function GameDetail() {
 
     async function fetchCurrentUser() {
       try {
-        const URL = "/api/user";
+        const URL = `${baseUrl}/user`;
         const response = await axios.get<IUser>(URL, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -96,7 +97,7 @@ function GameDetail() {
 
     if (isUserFavourite) {
       try {
-        const URL = `/api/favourites/${gameId}`;
+        const URL = `${baseUrl}/favourites/${gameId}`;
         await axios.delete(URL, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -114,7 +115,7 @@ function GameDetail() {
       }
     } else {
       try {
-        const URL = "/api/favourites";
+        const URL = `${baseUrl}/favourites`;
         const data = { favourites: gameId };
         await axios.post(URL, data, {
           headers: { Authorization: `Bearer ${token}` },
@@ -147,7 +148,7 @@ function GameDetail() {
     const token = localStorage.getItem("token");
 
     try {
-      const URL = `/api/games/${gameId}`;
+      const URL = `${baseUrl}/games/${gameId}`;
       await axios.delete(URL, {
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -10,6 +10,7 @@ import { IUser } from "../interfaces/user";
 import UpdateProfile from "./UpdateProfile";
 import UpdatePassword from "./UpdatePassword";
 import DeleteProfile from "./DeleteProfile";
+import { baseUrl } from "../config";
 
 function Profile() {
   const { user } = useUser();
@@ -27,7 +28,7 @@ function Profile() {
 
     async function fetchUserGames() {
       try {
-        const URL = "/api/games?creator=true";
+        const URL = `${baseUrl}/games?creator=true`;
         const response = await axios.get<IGame[]>(URL, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -66,7 +67,7 @@ function Profile() {
         <h1 className="title has-text-centered">User Profile</h1>
         <div className="columns is-vcentered is-centered">
           <div className="column is-one-third flex-center-x">
-            <figure className="image is-128x128">
+            <figure className="image is-128x128 ps-profile-img">
               <img
                 src={
                   currentUser?.imageUrl
