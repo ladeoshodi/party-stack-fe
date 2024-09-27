@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUser } from "../hooks/useUser";
 import { IGame } from "../interfaces/game";
 import axios, { AxiosError } from "axios";
@@ -6,10 +6,17 @@ import { toast } from "bulma-toast";
 import { getAxiosErrorMessage } from "../utils/utils";
 import GameCard from "./GameCard";
 import { Link } from "react-router-dom";
+import { IUser } from "../interfaces/user";
+import UpdateProfile from "./UpdateProfile";
 
 function Profile() {
   const { user } = useUser();
+  const updateProfileFormRef = useRef<HTMLDivElement | null>(null);
+
+  const [currentUser, setCurrentUser] = useState<IUser | null>(user);
   const [userGames, setUserGames] = useState<IGame[] | null>(null);
+
+  useEffect(() => setCurrentUser(user), [user]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -39,6 +46,10 @@ function Profile() {
     }
   }, []);
 
+  function showUpdateProfileModal() {
+    updateProfileFormRef.current?.classList.toggle("is-active");
+  }
+
   return (
     <>
       <section className="section">
@@ -48,8 +59,8 @@ function Profile() {
             <figure className="image is-128x128">
               <img
                 src={
-                  user?.imageUrl
-                    ? user.imageUrl
+                  currentUser?.imageUrl
+                    ? currentUser.imageUrl
                     : "https://bulma.io/assets/images/placeholders/128x128.png"
                 }
                 alt="Image"
@@ -57,16 +68,24 @@ function Profile() {
             </figure>
           </div>
           <div className="column flex-column-center-x">
-            <div className="block">
+            <div className="block has-text-centered">
               <p className="is-size-3 has-text-primary has-text-weight-bold">
-                {user?.username}
+                {currentUser?.username}
+              </p>
+              <p className="is-size-5 has-text-weight-light">
+                {currentUser?.email}
               </p>
             </div>
             <div className="block">
               <nav className="level is-mobile">
                 <div className="level-left">
                   <div className="level-item">
-                    <button className="button is-medium">Update Profile</button>
+                    <button
+                      className="button is-medium"
+                      onClick={showUpdateProfileModal}
+                    >
+                      Update Profile
+                    </button>
                   </div>
                   <div className="level-item">
                     <button className="button is-medium is-link">
@@ -105,6 +124,13 @@ function Profile() {
         </div>
       </section>
       <hr className="horizontal-rule" />
+      {/* modals */}
+      <UpdateProfile
+        currentUser={currentUser}
+        showUpdateProfileModal={showUpdateProfileModal}
+        setCurrentUser={setCurrentUser}
+        ref={updateProfileFormRef}
+      />
     </>
   );
 }
