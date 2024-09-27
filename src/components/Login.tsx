@@ -54,7 +54,7 @@ function Login({ setShowLogin }: LoginProps) {
           dismissible: true,
           pauseOnHover: true,
         });
-      };
+      }
     }
   }
 
@@ -70,7 +70,8 @@ function Login({ setShowLogin }: LoginProps) {
   return (
     <section className="section ps-form">
       <p className="title has-text-grey-dark">Login</p>
-      <form className="box"
+      <form
+        className="box"
         onSubmit={(e) => {
           void handleLogin(e);
         }}
