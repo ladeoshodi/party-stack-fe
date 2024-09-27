@@ -268,13 +268,16 @@ function Comments() {
               </figure>
               <div className="media-content">
                 <div className="content">
-                  <p>
-                    <strong>{comment.author.username}</strong>{" "}
-                    <small>
-                      {new Date(comment.updatedAt).toLocaleString()}
-                    </small>
+                  <p className="has-text-link-dark">
+                    <span className="is-size-5 has-text-weight-bold">
+                      {comment.author.username}
+                    </span>{" "}
                     <br />
-                    {comment.text}
+                    <span className="is-size-6">{comment.text}</span>
+                    <br />
+                    <small>
+                      <i>{new Date(comment.updatedAt).toLocaleString()}</i>
+                    </small>
                   </p>
                 </div>
                 <nav className="level is-mobile">
