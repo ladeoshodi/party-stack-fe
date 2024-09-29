@@ -19,7 +19,7 @@ function LandingPage() {
   }, [navigate]);
 
   return (
-    <>
+    <div className="ps-body-main">
       <section className="hero is-link is-fullheight">
         <div className="hero-body">
           <div className="columns is-vcentered ps-landing-page">
@@ -42,7 +42,7 @@ function LandingPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 
