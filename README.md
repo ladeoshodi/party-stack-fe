@@ -58,3 +58,6 @@ password: #T3stUs3r
 #### User profile page
 
 ![alt text](readme-assets/user-profile.png)
+
+_You can find the [backend
+deployment here](https://github.com/ladeoshodi/party-stack-be)_
